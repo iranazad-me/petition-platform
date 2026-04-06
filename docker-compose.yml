@@ -1,0 +1,23 @@
+# Railway / Generic PaaS Configuration
+# This file is used by Railway and other PaaS platforms that support
+# docker-compose.yml format for deployment configuration
+
+version: "3.8"
+
+services:
+  app:
+    # Railway auto-detects this as a web service from EXPOSE in Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT:-3000}
+    healthcheck:
+      test: ["CMD", "node", "/app/scripts/healthcheck.mjs"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    # Railway automatically injects DATABASE_URL from managed PostgreSQL
+    # Add other environment variables via Railway dashboard or CLI

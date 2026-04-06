@@ -1,0 +1,36 @@
+# Generic PaaS Platform Configuration
+# This file provides health check and resource configuration for
+# PaaS platforms that support YAML configuration (DigitalOcean App Platform, etc.)
+
+# Health check configuration for PaaS probes
+healthcheck:
+  http:
+    path: /api/health
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+# Readiness check - verifies database connectivity
+readinesscheck:
+  http:
+    path: /api/ready
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+# Resource allocation for 5000-10000 concurrent users
+resources:
+  memory: 1Gi
+  cpu: 1
+
+# Optional auto-scaling configuration
+# Uncomment and adjust based on your needs
+# scaling:
+#   minInstances: 1
+#   maxInstances: 2
+#   targetMemoryPercent: 75
+#   targetCPUPercent: 80
